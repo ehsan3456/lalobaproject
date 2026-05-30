@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Loba Cantina + Grill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --terracotta: #C4532A;
+    --terracotta-deep: #8B3318;
+    --terracotta-light: #E87A4D;
+    --sand: #F2E8D5;
+    --sand-dark: #D4C5A9;
+    --obsidian: #1A1208;
+    --smoke: #2C2015;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --cream: #FAF6EE;
+    --agave: #4A6741;
+    --agave-light: #6B8F67;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--obsidian);
+    color: var(--sand);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 4rem;
+    mix-blend-mode: normal;
+    transition: background 0.4s ease, padding 0.4s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(26, 18, 8, 0.95);
+    padding: 1rem 4rem;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sand);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; color: var(--gold-light); }
+
+  .nav-cta {
+    background: var(--terracotta);
+    color: var(--cream) !important;
+    padding: 0.5rem 1.4rem;
+    border-radius: 2px;
+    opacity: 1 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--terracotta-light) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--obsidian);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 50%, rgba(196, 83, 42, 0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 80% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 100% 100% at 50% 100%, rgba(139, 51, 24, 0.25) 0%, transparent 50%);
+  }
+
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(201,168,76,0.04) 79px, rgba(201,168,76,0.04) 80px),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(201,168,76,0.04) 79px, rgba(201,168,76,0.04) 80px);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    max-width: 1000px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(6rem, 16vw, 14rem);
+    line-height: 0.88;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .hero-title .accent {
+    color: var(--terracotta);
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.65em;
+    display: block;
+    line-height: 1;
+  }
+
+  .hero-sub {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-style: italic;
+    color: var(--sand-dark);
+    margin-top: 2rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+
+  .btn-primary {
+    background: var(--terracotta);
+    color: var(--cream);
+    padding: 0.9rem 2.4rem;
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { background: var(--terracotta-light); transform: translateY(-2px); }
+
+  .btn-outline {
+    border: 1px solid rgba(201, 168, 76, 0.5);
+    color: var(--gold-light);
+    padding: 0.9rem 2.4rem;
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeUp 1s 0.8s ease both;
+  }
+
+  .hero-scroll span {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sand-dark);
+    opacity: 0.6;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 0.6; }
+    50% { transform: scaleY(0.5); opacity: 0.3; }
+  }
+
+  /* ── TICKER BAND ── */
+  .ticker {
+    background: var(--terracotta);
+    padding: 0.8rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    gap: 3rem;
+    animation: ticker 25s linear infinite;
+  }
+
+  .ticker-inner span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: var(--cream);
+    opacity: 0.9;
+  }
+
+  .ticker-dot {
+    color: var(--gold-light) !important;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── ABOUT / INTRO ── */
+  .section-intro {
+    padding: 8rem 4rem;
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .intro-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .intro-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .intro-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-title em {
+    color: var(--terracotta-light);
+    font-style: italic;
+  }
+
+  .intro-text {
+    font-size: 1.1rem;
+    color: var(--sand-dark);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .intro-visual {
+    position: relative;
+  }
+
+  .intro-frame {
+    background: var(--smoke);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    aspect-ratio: 3/4;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .intro-frame-inner {
+    position: absolute;
+    inset: 1.5rem;
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .food-illustration {
+    font-size: 5rem;
+    opacity: 0.3;
+  }
+
+  .frame-caption {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--sand-dark);
+    opacity: 0.5;
+    letter-spacing: 0.05em;
+  }
+
+  /* Decorative corner elements */
+  .intro-frame::before,
+  .intro-frame::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.3;
+  }
+
+  .intro-frame::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+  .intro-frame::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+  .stat-strip {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(201, 168, 76, 0.15);
+  }
+
+  .stat-item { flex: 1; }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--terracotta-light);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sand-dark);
+    opacity: 0.6;
+  }
+
+  /* ── MENU FEATURE ── */
+  .section-menu {
+    padding: 6rem 0;
+    background: var(--smoke);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-menu::before {
+    content: 'MENÚ';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20rem;
+    color: rgba(201, 168, 76, 0.03);
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    letter-spacing: 0.02em;
+  }
+
+  .menu-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .menu-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    color: var(--cream);
+    font-weight: 700;
+  }
+
+  .section-title em { color: var(--terracotta-light); font-style: italic; }
+
+  .menu-categories {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cat-btn {
+    background: transparent;
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    color: var(--sand-dark);
+    padding: 0.45rem 1.2rem;
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .cat-btn.active, .cat-btn:hover {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: var(--cream);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid rgba(201, 168, 76, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .menu-item {
+    padding: 2rem 2.2rem;
+    border-right: 1px solid rgba(201, 168, 76, 0.12);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+    transition: background 0.25s;
+    position: relative;
+  }
+
+  .menu-item:nth-child(3n) { border-right: none; }
+  .menu-item:nth-last-child(-n+3) { border-bottom: none; }
+
+  .menu-item:hover { background: rgba(196, 83, 42, 0.06); }
+
+  .menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .menu-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+
+  .menu-item-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .menu-item-desc {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--sand-dark);
+    opacity: 0.7;
+    line-height: 1.5;
+  }
+
+  .menu-item-tag {
+    display: inline-block;
+    margin-top: 0.75rem;
+    background: rgba(74, 103, 65, 0.3);
+    color: var(--agave-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    border: 1px solid rgba(74, 103, 65, 0.4);
+  }
+
+  .menu-cta-row {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  /* ── ATMOSPHERE ── */
+  .section-atmosphere {
+    padding: 8rem 4rem;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .atmo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .atmo-card {
+    background: var(--smoke);
+    border: 1px solid rgba(201, 168, 76, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .atmo-card--tall {
+    grid-row: span 2;
+  }
+
+  .atmo-card-visual {
+    height: 220px;
+    background: var(--obsidian);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .atmo-card--tall .atmo-card-visual { height: 100%; min-height: 460px; }
+
+  .atmo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(196, 83, 42, 0.15), rgba(201, 168, 76, 0.08));
+  }
+
+  .atmo-card-text {
+    padding: 1.5rem;
+  }
+
+  .atmo-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+
+  .atmo-card-sub {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--sand-dark);
+    opacity: 0.65;
+  }
+
+  /* Icons as placeholder art */
+  .atmo-icon {
+    font-size: 5rem;
+    opacity: 0.15;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  /* ── LOCATION ── */
+  .section-location {
+    background: var(--smoke);
+    padding: 6rem 4rem;
+    position: relative;
+  }
+
+  .location-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .location-info { }
+
+  .hours-list {
+    list-style: none;
+    margin-top: 2rem;
+  }
+
+  .hours-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+    font-size: 1rem;
+    color: var(--sand-dark);
+  }
+
+  .hours-list li:last-child { border-bottom: none; }
+
+  .hours-list .day { color: var(--cream); font-weight: 400; }
+  .hours-list .time { color: var(--gold); font-family: 'Crimson Pro', serif; font-style: italic; }
+
+  .contact-block {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.95rem;
+    color: var(--sand-dark);
+  }
+
+  .contact-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(196, 83, 42, 0.15);
+    border: 1px solid rgba(196, 83, 42, 0.3);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .map-placeholder {
+    background: var(--obsidian);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: 4px;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,168,76,0.05) 39px, rgba(201,168,76,0.05) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,168,76,0.05) 39px, rgba(201,168,76,0.05) 40px);
+  }
+
+  .map-pin {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .pin-dot {
+    width: 20px;
+    height: 20px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    margin: 0 auto 0.5rem;
+    box-shadow: 0 0 0 6px rgba(196, 83, 42, 0.2), 0 0 0 12px rgba(196, 83, 42, 0.1);
+    animation: pinPulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pinPulse {
+    0%, 100% { box-shadow: 0 0 0 6px rgba(196, 83, 42, 0.2), 0 0 0 12px rgba(196, 83, 42, 0.1); }
+    50% { box-shadow: 0 0 0 10px rgba(196, 83, 42, 0.15), 0 0 0 20px rgba(196, 83, 42, 0.05); }
+  }
+
+  .pin-label {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--sand);
+    margin-top: 0.8rem;
+  }
+
+  .pin-address {
+    font-size: 0.8rem;
+    color: var(--sand-dark);
+    opacity: 0.6;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* ── QUOTE BAND ── */
+  .quote-band {
+    padding: 6rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-band::before {
+    content: '"';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 30rem;
+    color: rgba(201, 168, 76, 0.04);
+    top: -5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+    font-style: italic;
+    color: var(--cream);
+    max-width: 860px;
+    margin: 0 auto;
+    line-height: 1.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-text span { color: var(--terracotta-light); }
+
+  .quote-attr {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--obsidian);
+    border-top: 1px solid rgba(201, 168, 76, 0.12);
+    padding: 5rem 4rem 3rem;
+  }
+
+  .footer-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+  }
+
+  .footer-brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-tagline {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--sand-dark);
+    opacity: 0.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-col-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-links a {
+    color: var(--sand-dark);
+    opacity: 0.65;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .footer-links a:hover { opacity: 1; color: var(--gold-light); }
+
+  .footer-social {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .social-btn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--sand-dark);
+    opacity: 0.6;
+    transition: all 0.2s;
+  }
+
+  .social-btn:hover { border-color: var(--terracotta); color: var(--terracotta-light); opacity: 1; }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--sand-dark);
+    opacity: 0.35;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-wolf {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--gold);
+    opacity: 0.4;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── WOLF SVG ACCENT ── */
+  .wolf-accent {
+    position: absolute;
+    right: 4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.04;
+    width: 320px;
+    pointer-events: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    nav.scrolled { padding: 0.8rem 2rem; }
+    .nav-links { display: none; }
+    .section-intro { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
+    .menu-inner { padding: 0 2rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .menu-item { border-right: none !important; }
+    .menu-item:last-child { border-bottom: none; }
+    .atmo-grid { grid-template-columns: 1fr; }
+    .atmo-card--tall { grid-row: span 1; }
+    .atmo-card--tall .atmo-card-visual { min-height: 220px; }
+    .location-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .section-atmosphere, .section-location, .quote-band { padding: 4rem 2rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    footer { padding: 4rem 2rem 2rem; }
+  }
+
+  /* ── HOVERABLE ITEMS ── */
+  .menu-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--terracotta);
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+    transform-origin: top;
+  }
+
+  .menu-item:hover::after { transform: scaleY(1); }
+
+  /* Divider ornament */
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    opacity: 0.35;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+    margin: 1rem 0;
+  }
+
+  .open-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(74, 103, 65, 0.2);
+    border: 1px solid rgba(74, 103, 65, 0.4);
+    color: var(--agave-light);
+    padding: 0.4rem 1rem;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .open-badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--agave-light);
+    border-radius: 50%;
+    animation: dotBlink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes dotBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">La Loba</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#atmosphere">Atmosphere</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="https://order.toasttab.com/online/la-loba-edmond" class="nav-cta">Order Online</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+
+  <!-- Wolf SVG as decorative element -->
+  <svg class="wolf-accent" viewBox="0 0 200 200" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 20 C80 20 60 35 55 55 L45 80 C40 90 30 95 25 105 C20 115 25 130 35 135 C30 140 28 150 32 158 C40 170 55 165 65 155 C70 165 80 172 100 172 C120 172 130 165 135 155 C145 165 160 170 168 158 C172 150 170 140 165 135 C175 130 180 115 175 105 C170 95 160 90 155 80 L145 55 C140 35 120 20 100 20 Z M85 90 C88 90 91 93 91 96 C91 99 88 102 85 102 C82 102 79 99 79 96 C79 93 82 90 85 90 Z M115 90 C118 90 121 93 121 96 C121 99 118 102 115 102 C112 102 109 99 109 96 C109 93 112 90 115 90 Z M100 115 C108 115 115 118 118 123 L100 128 L82 123 C85 118 92 115 100 115 Z"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Downtown Edmond · Oklahoma · Est. 2025</div>
+    <h1 class="hero-title">
+      <span class="accent">Run Wild,</span>
+      Eat Well
+    </h1>
+    <p class="hero-sub">Chef-driven Mexican inspired by Central, Coastal &amp; Southern Mexico</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Make a Reservation</a>
+      <a href="#menu" class="btn-outline">View the Menu</a>
+      <a href="https://order.toasttab.com/online/la-loba-edmond" class="btn-outline">Order Online</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>CASUALLY AWESOME MEXICAN</span>
+    <span class="ticker-dot">✦</span>
+    <span>DOWNTOWN EDMOND</span>
+    <span class="ticker-dot">✦</span>
+    <span>FRESH INGREDIENTS</span>
+    <span class="ticker-dot">✦</span>
+    <span>CHEF DRIVEN</span>
+    <span class="ticker-dot">✦</span>
+    <span>LOCALLY OWNED</span>
+    <span class="ticker-dot">✦</span>
+    <span>TUE–SAT 11AM–9PM</span>
+    <span class="ticker-dot">✦</span>
+    <span>EDMOND RAILYARD</span>
+    <span class="ticker-dot">✦</span>
+    <span>CASUALLY AWESOME MEXICAN</span>
+    <span class="ticker-dot">✦</span>
+    <span>DOWNTOWN EDMOND</span>
+    <span class="ticker-dot">✦</span>
+    <span>FRESH INGREDIENTS</span>
+    <span class="ticker-dot">✦</span>
+    <span>CHEF DRIVEN</span>
+    <span class="ticker-dot">✦</span>
+    <span>LOCALLY OWNED</span>
+    <span class="ticker-dot">✦</span>
+    <span>TUE–SAT 11AM–9PM</span>
+    <span class="ticker-dot">✦</span>
+    <span>EDMOND RAILYARD</span>
+    <span class="ticker-dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT / INTRO -->
+<section id="about" class="section-intro">
+  <div class="reveal">
+    <div class="intro-label">Our Story</div>
+    <h2 class="intro-title">Where Mexico's Spirit <em>Comes Alive</em></h2>
+    <p class="intro-text">
+      La Loba Cantina + Grill brings the wild spirit of Mexico to the table. Our chef-driven menu draws deep from the bold, vibrant flavors of Central, Coastal, and Southern Mexican regions — slow-braised meats, handmade tortillas, and salsas that sing.
+    </p>
+    <p class="intro-text">
+      Nestled in the Edmond Railyard just off Historic Route 66, we're your neighborhood escape — casually awesome, deeply rooted, always fresh.
+    </p>
+    <div class="stat-strip">
+      <div class="stat-item">
+        <span class="stat-number">3</span>
+        <span class="stat-label">Regions of Mexico</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">Fresh Ingredients</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">1</span>
+        <span class="stat-label">Chef's Passion</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="intro-visual reveal">
+    <div class="intro-frame">
+      <div class="intro-frame-inner">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25">
+          <circle cx="60" cy="60" r="55" stroke="#C9A84C" stroke-width="1"/>
+          <circle cx="60" cy="60" r="40" stroke="#C9A84C" stroke-width="0.5" stroke-dasharray="4 4"/>
+          <path d="M60 20 C45 30 35 45 35 60 C35 75 45 90 60 100 C75 90 85 75 85 60 C85 45 75 30 60 20Z" fill="rgba(196,83,42,0.15)" stroke="#C4532A" stroke-width="0.8"/>
+          <circle cx="60" cy="60" r="8" fill="rgba(201,168,76,0.3)" stroke="#C9A84C" stroke-width="1"/>
+          <text x="60" y="113" text-anchor="middle" fill="#C9A84C" font-size="7" letter-spacing="3" font-family="serif" opacity="0.5">LA LOBA</text>
+        </svg>
+        <p class="frame-caption">Fresh. Bold. Authentic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="section-menu">
+  <div class="menu-inner">
+    <div class="menu-header reveal">
+      <div>
+        <div class="intro-label">Chef's Selection</div>
+        <h2 class="section-title">The <em>Menu</em></h2>
+      </div>
+      <div class="menu-categories">
+        <button class="cat-btn active">All</button>
+        <button class="cat-btn">Starters</button>
+        <button class="cat-btn">Tacos</button>
+        <button class="cat-btn">Mains</button>
+        <button class="cat-btn">Drinks</button>
+      </div>
+    </div>
+
+    <div class="menu-grid reveal">
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Guacamole de la Casa</span>
+          <span class="menu-item-price">$9</span>
+        </div>
+        <p class="menu-item-desc">Hand-smashed avocado, serrano, cilantro, white onion, lime, seasonal fruit</p>
+        <span class="menu-item-tag">Vegetarian</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Tostadas de Tuna</span>
+          <span class="menu-item-price">$14</span>
+        </div>
+        <p class="menu-item-desc">Ahi tuna, cucumber, avocado crema, chipotle aioli, crispy tostada</p>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Queso Fundido</span>
+          <span class="menu-item-price">$11</span>
+        </div>
+        <p class="menu-item-desc">Oaxacan cheese, roasted poblano, chorizo, warm flour tortillas</p>
+        <span class="menu-item-tag">Chef's Favorite</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Tacos de Birria</span>
+          <span class="menu-item-price">$16</span>
+        </div>
+        <p class="menu-item-desc">Slow-braised beef, consommé for dipping, Oaxacan cheese, corn tortilla, onion, cilantro</p>
+        <span class="menu-item-tag">House Specialty</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Pescado al Ajillo</span>
+          <span class="menu-item-price">$22</span>
+        </div>
+        <p class="menu-item-desc">Gulf snapper, garlic-chile de árbol oil, charred tomato salsa, seasonal vegetables</p>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Mole Negro</span>
+          <span class="menu-item-price">$26</span>
+        </div>
+        <p class="menu-item-desc">Duck confit, ancestral Oaxacan mole with 30+ ingredients, sesame, pickled red onion</p>
+        <span class="menu-item-tag">Chef's Favorite</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Tacos de Canasta</span>
+          <span class="menu-item-price">$13</span>
+        </div>
+        <p class="menu-item-desc">Three basket tacos: potato, bean &amp; cheese, chicharrón — Mexico City street style</p>
+        <span class="menu-item-tag">Vegetarian</span>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Michelada La Loba</span>
+          <span class="menu-item-price">$9</span>
+        </div>
+        <p class="menu-item-desc">House-spiced clamato, lime, salsa Maggi, rimmed with chile-salt, your choice of cerveza</p>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <span class="menu-item-name">Agua Fresca del Día</span>
+          <span class="menu-item-price">$5</span>
+        </div>
+        <p class="menu-item-desc">Fresh-pressed seasonal fruit water, changes daily with the market</p>
+        <span class="menu-item-tag">Non-alcoholic</span>
+      </div>
+    </div>
+
+    <div class="menu-cta-row reveal">
+      <div class="ornament">✦ ✦ ✦</div>
+      <p style="font-style:italic; color:var(--sand-dark); opacity:0.6; margin-bottom:1.5rem; font-size:0.95rem;">Menu changes with the seasons and the chef's inspiration.</p>
+      <a href="#" class="btn-outline">Download Full Menu PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-band">
+  <blockquote class="quote-text reveal">
+    "Each dish is an invitation — to <span>run wild</span>, eat well, and let the spirit of Mexico carry you somewhere unforgettable."
+  </blockquote>
+  <p class="quote-attr">— La Loba Cantina + Grill</p>
+</div>
+
+<!-- ATMOSPHERE -->
+<section id="atmosphere" class="section-atmosphere">
+  <div class="reveal">
+    <div class="intro-label">The Experience</div>
+    <h2 class="section-title">Casually <em>Awesome</em></h2>
+  </div>
+
+  <div class="atmo-grid">
+    <div class="atmo-card atmo-card--tall reveal">
+      <div class="atmo-card-visual" style="background: linear-gradient(160deg, #2C1A0A, #1A1208);">
+        <div class="atmo-overlay" style="background: linear-gradient(to bottom, rgba(196,83,42,0.25), rgba(26,18,8,0.8));"></div>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.4; position:relative; z-index:1;">
+          <path d="M40 8 C28 8 18 18 18 30 C18 42 28 52 40 60 C52 52 62 42 62 30 C62 18 52 8 40 8 Z" fill="rgba(196,83,42,0.6)" stroke="#C4532A" stroke-width="1"/>
+          <circle cx="40" cy="30" r="8" fill="rgba(201,168,76,0.4)" stroke="#C9A84C" stroke-width="1"/>
+          <path d="M30 65 L40 75 L50 65" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="atmo-icon">🌶</span>
+      </div>
+      <div class="atmo-card-text">
+        <h3 class="atmo-card-title">The Cantina Spirit</h3>
+        <p class="atmo-card-sub">Lively, warm, and always welcoming — the heart of La Loba</p>
+      </div>
+    </div>
+
+    <div class="atmo-card reveal">
+      <div class="atmo-card-visual" style="background: linear-gradient(135deg, #1F1508, #2C1A0A);">
+        <div class="atmo-overlay"></div>
+        <span class="atmo-icon">🫙</span>
+      </div>
+      <div class="atmo-card-text">
+        <h3 class="atmo-card-title">Open Kitchen</h3>
+        <p class="atmo-card-sub">Watch the craft, smell the tradition</p>
+      </div>
+    </div>
+
+    <div class="atmo-card reveal">
+      <div class="atmo-card-visual" style="background: linear-gradient(135deg, #1A1208, #251308);">
+        <div class="atmo-overlay" style="background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(196,83,42,0.1));"></div>
+        <span class="atmo-icon">🍹</span>
+      </div>
+      <div class="atmo-card-text">
+        <h3 class="atmo-card-title">Full Bar</h3>
+        <p class="atmo-card-sub">Craft cocktails, curated mezcal, local cerveza</p>
+      </div>
+    </div>
+
+    <div class="atmo-card reveal">
+      <div class="atmo-card-visual" style="background: linear-gradient(135deg, #1A1208, #2C200A);">
+        <div class="atmo-overlay" style="background: linear-gradient(135deg, rgba(74,103,65,0.12), transparent);"></div>
+        <span class="atmo-icon">🌮</span>
+      </div>
+      <div class="atmo-card-text">
+        <h3 class="atmo-card-title">Handmade Daily</h3>
+        <p class="atmo-card-sub">Tortillas pressed fresh every morning</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location" class="section-location">
+  <div class="location-inner">
+    <div class="reveal">
+      <div class="intro-label">Find Us</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem;">Hours &amp; <em>Location</em></h2>
+
+      <div class="open-badge">
+        <span class="open-badge-dot"></span>
+        Now Open
+      </div>
+
+      <ul class="hours-list">
+        <li><span class="day">Monday</span><span class="time">Closed</span></li>
+        <li><span class="day">Tuesday</span><span class="time">11 AM – 9 PM</span></li>
+        <li><span class="day">Wednesday</span><span class="time">11 AM – 9 PM</span></li>
+        <li><span class="day">Thursday</span><span class="time">11 AM – 9 PM</span></li>
+        <li><span class="day">Friday</span><span class="time">11 AM – 9 PM</span></li>
+        <li><span class="day">Saturday</span><span class="time">11 AM – 9 PM</span></li>
+        <li><span class="day">Sunday</span><span class="time">Closed</span></li>
+      </ul>
+
+      <div class="contact-block">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <span>23 W. 1st Street, Suite 150, Edmond, OK 73003</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <span>(405) 906-2083</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <span>info@lalobaedmond.com</span>
+        </div>
+      </div>
+
+      <div style="margin-top:2.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+        <a href="#" class="btn-primary">Make a Reservation</a>
+        <a href="https://order.toasttab.com/online/la-loba-edmond" class="btn-outline">Order Online</a>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="map-placeholder">
+        <div class="map-grid"></div>
+        <div class="map-pin">
+          <div class="pin-dot"></div>
+          <p class="pin-label">La Loba Cantina + Grill</p>
+          <p class="pin-address">Edmond Railyard · Route 66</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <span class="footer-brand-name">La Loba</span>
+        <p class="footer-tagline">Cantina + Grill</p>
+        <p style="font-size:0.9rem; color:var(--sand-dark); opacity:0.55; max-width:260px; line-height:1.7;">
+          Casually awesome Mexican, chef-driven and locally owned in the heart of Downtown Edmond.
+        </p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/lalobaedmond/" class="social-btn" target="_blank" title="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61588218172260" class="social-btn" target="_blank" title="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Navigate</p>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#atmosphere">Atmosphere</a></li>
+          <li><a href="#location">Location</a></li>
+          <li><a href="#">Jobs</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Order</p>
+        <ul class="footer-links">
+          <li><a href="#">Make a Reservation</a></li>
+          <li><a href="https://order.toasttab.com/online/la-loba-edmond">Order Online</a></li>
+          <li><a href="#">Download Menu</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Visit</p>
+        <ul class="footer-links">
+          <li><a href="#">23 W. 1st Street</a></li>
+          <li><a href="#">Suite 150</a></li>
+          <li><a href="#">Edmond, OK 73003</a></li>
+          <li><a href="tel:4059062083">(405) 906-2083</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 La Loba Cantina + Grill. All rights reserved.</p>
+      <p class="footer-wolf">Run Wild. Eat Well.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Menu category buttons
+  const catBtns = document.querySelectorAll('.cat-btn');
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      catBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
